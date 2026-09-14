@@ -7,13 +7,16 @@ client = TestClient(app)
 
 
 def test_unregister_participant_from_activity():
+    # Arrange
     activity_name = "Chess Club"
     email = "student@mergington.edu"
 
+    # Act
     signup_response = client.post(f"/activities/{activity_name}/signup?email={email}")
-    assert signup_response.status_code == 200
-
     delete_response = client.delete(f"/activities/{activity_name}/participants/{email}")
+
+    # Assert
+    assert signup_response.status_code == 200
     assert delete_response.status_code == 200
     assert delete_response.json()["message"] == f"Removed {email} from {activity_name}"
 
